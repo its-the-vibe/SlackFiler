@@ -27,6 +27,12 @@ go.work.sum
 # env file
 .env
 
+# Real config file (commit config.example.yaml instead)
+config.yaml
+
+# Compiled binary
+slackfiler
+
 # Editor/IDE
 # .idea/
 # .vscode/

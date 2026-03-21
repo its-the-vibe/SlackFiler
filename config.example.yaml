@@ -1,0 +1,12 @@
+redis:
+  host: "localhost"
+  port: 6379
+  # Redis list that SlackFiler pops file_shared events from (LPOP).
+  input_list: "slack_file_events"
+  # Redis list that SlackFiler pushes download result JSON to (RPUSH).
+  output_list: "slack_file_results"
+
+# Map each Slack channel ID to the local directory where files should be saved.
+channels:
+  C1234567890: "/downloads/general"
+  C0987654321: "/downloads/random"

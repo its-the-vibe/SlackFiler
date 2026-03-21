@@ -1,0 +1,24 @@
+services:
+  slackfiler:
+    build: .
+    # Mount the config file read-only; the service binary itself is read-only.
+    read_only: true
+    env_file:
+      - .env
+    environment:
+      - CONFIG_PATH=/etc/slackfiler/config.yaml
+    volumes:
+      # Configuration (read-only)
+      - ./config.yaml:/etc/slackfiler/config.yaml:ro
+      # Download directories – add one entry per channel directory defined in
+      # config.yaml.  Example:
+      #   - /host/path/to/general:/downloads/general
+      #   - /host/path/to/random:/downloads/random
+    networks:
+      - redis_net
+    restart: unless-stopped
+
+networks:
+  # Attach to the pre-existing network that your Redis container uses.
+  redis_net:
+    external: true
