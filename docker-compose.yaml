@@ -3,6 +3,7 @@ services:
     build: .
     # Mount the config file read-only; the service binary itself is read-only.
     read_only: true
+    user: "1000:1000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
