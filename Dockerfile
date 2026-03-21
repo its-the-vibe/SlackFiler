@@ -1,5 +1,5 @@
 # ── Build stage ────────────────────────────────────────────────────────────────
-FROM golang:1.24 AS builder
+FROM golang:1.26.1 AS builder
 
 WORKDIR /build
 
@@ -9,8 +9,7 @@ RUN go mod download
 
 # Copy source and build a fully-static binary
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -trimpath -ldflags="-s -w -extldflags=-static" -o slackfiler .
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w -extldflags=-static" -o slackfiler .
 
 # ── Runtime stage ───────────────────────────────────────────────────────────────
 FROM scratch

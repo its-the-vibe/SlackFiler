@@ -3,6 +3,8 @@ services:
     build: .
     # Mount the config file read-only; the service binary itself is read-only.
     read_only: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
       - .env
     environment:
@@ -14,11 +16,4 @@ services:
       # config.yaml.  Example:
       #   - /host/path/to/general:/downloads/general
       #   - /host/path/to/random:/downloads/random
-    networks:
-      - redis_net
-    restart: unless-stopped
-
-networks:
-  # Attach to the pre-existing network that your Redis container uses.
-  redis_net:
-    external: true
+    restart: on-failure:10
