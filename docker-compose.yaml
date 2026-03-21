@@ -16,4 +16,5 @@ services:
       # config.yaml.  Example:
       #   - /host/path/to/general:/downloads/general
       #   - /host/path/to/random:/downloads/random
+      - ./unfiled:/unfiled
     restart: on-failure:10
