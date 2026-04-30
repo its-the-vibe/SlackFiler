@@ -1,5 +1,7 @@
 # SlackFiler
 
+[![CI](https://github.com/its-the-vibe/SlackFiler/actions/workflows/ci.yaml/badge.svg)](https://github.com/its-the-vibe/SlackFiler/actions/workflows/ci.yaml)
+
 SlackFiler is a lightweight Go service that listens for Slack `file_shared` events delivered via Redis, downloads the files using the Slack API, saves them to configured local directories, and pushes a result message back to a Redis list for downstream consumers.
 
 ---
@@ -13,6 +15,7 @@ SlackFiler is a lightweight Go service that listens for Slack `file_shared` even
 - [Running Locally](#running-locally)
 - [Running with Docker Compose](#running-with-docker-compose)
 - [Redis Message Formats](#redis-message-formats)
+- [Development](#development)
 
 ---
 
@@ -134,3 +137,40 @@ Standard Slack `event_callback` JSON with an inner `file_shared` event:
 }
 ```
 
+
+---
+
+## Development
+
+### Makefile Targets
+
+| Target | Description |
+|--------|-------------|
+| `make build` | Compile the binary (`slackfiler`) |
+| `make test`  | Run unit tests with coverage (`coverage.out`) |
+| `make lint`  | Run `go vet` to check for code issues |
+| `make fmt`   | Format all Go source files with `gofmt` |
+
+```bash
+# Build
+make build
+
+# Run tests with coverage
+make test
+
+# Lint
+make lint
+
+# Format source code
+make fmt
+```
+
+### Continuous Integration
+
+The CI workflow (`.github/workflows/ci.yaml`) runs on every push and pull request. It:
+
+1. Sets up Go using the version declared in `go.mod`
+2. Compiles the project (`make build`)
+3. Runs unit tests and reports coverage (`make test`)
+4. Lints the code (`make lint`)
+5. Uploads `coverage.out` as a build artifact
