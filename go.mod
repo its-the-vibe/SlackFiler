@@ -1,6 +1,6 @@
 module github.com/its-the-vibe/slackfiler
 
-go 1.26.3
+go 1.26.4
 
 require (
 	github.com/joho/godotenv v1.5.1
