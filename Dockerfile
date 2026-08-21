@@ -1,10 +1,10 @@
 # ── Build stage ────────────────────────────────────────────────────────────────
-FROM golang:1.26.6 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.26.6-alpine AS builder
+
+ARG TARGETOS
+ARG TARGETARCH
 
 WORKDIR /build
-
-# Install CA certificates (for copying to scratch)
-RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
 
 # Download dependencies first (cached layer)
 COPY go.mod go.sum ./
@@ -12,13 +12,13 @@ RUN go mod download
 
 # Copy source and build a fully-static binary
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w -extldflags=-static" -o slackfiler .
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath -ldflags="-s -w" -o slackfiler .
 
-# ── Runtime stage ───────────────────────────────────────────────────────────────
-FROM scratch
-
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+# ── Runtime stage (distroless) ──────────────────────────────────────────────────
+FROM gcr.io/distroless/static-debian13:nonroot
 
 COPY --from=builder /build/slackfiler /slackfiler
+
+USER nonroot:nonroot
 
 ENTRYPOINT ["/slackfiler"]

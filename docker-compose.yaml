@@ -1,6 +1,8 @@
 services:
   slackfiler:
     build: .
+    image: ghcr.io/its-the-vibe/slackfiler:latest
+    pull_policy: always
     # Mount the config file read-only; the service binary itself is read-only.
     read_only: true
     user: "1000:1000"

@@ -2,34 +2,14 @@ name: CI
 
 on:
   push:
+    branches: [ main ]
   pull_request:
-
-permissions:
-  contents: read
+    branches: [ main ]
 
 jobs:
-  ci:
-    name: Build, Test & Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: go.mod
-
-      - name: Build
-        run: make build
-
-      - name: Test
-        run: make test
-
-      - name: Lint
-        run: make lint
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage.out
+  call-common-ci:
+    uses: its-the-vibe/.github/.github/workflows/common-ci.yaml@main
+    permissions:
+      contents: read
+      packages: write
+    secrets: inherit
