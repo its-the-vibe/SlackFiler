@@ -5,7 +5,7 @@ go 1.27.3
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/redis/go-redis/v9 v9.23.0
-	github.com/slack-go/slack v0.30.1
+	github.com/slack-go/slack v0.31.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
